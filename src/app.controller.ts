@@ -30,9 +30,7 @@ export class AppController {
 
         delete user.password;
 
-       return {
-            message: 'success'
-        };
+       res.json({ message: 'success' });
     }
 
 

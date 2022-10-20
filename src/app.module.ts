@@ -4,13 +4,14 @@ import {AppController} from './app.controller';
 import {AppService} from './app.service';
 import {User} from "./user.entity";
 import {JwtModule} from "@nestjs/jwt";
-
+import { ConfigModule } from '@nestjs/config';
 @Module({
     imports: [
+        ConfigModule.forRoot({envFilePath: '.env',}),
         TypeOrmModule.forRoot({
             useUnifiedTopology: true,
             type: "mongodb",
-            database: "datebase",
+            database: process.env.DATEBASE_NAME ,
             synchronize: true,
             logging: ['query', 'error'],
             entities: [User],
@@ -19,7 +20,7 @@ import {JwtModule} from "@nestjs/jwt";
         }),
         TypeOrmModule.forFeature([User]),
         JwtModule.register({
-            secret: 'secret',
+            secret: process.env.SECRET_KEY,
             signOptions: {expiresIn: '1d'}
         })
     ],
